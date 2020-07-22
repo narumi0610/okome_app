@@ -1,0 +1,121 @@
+import 'package:flutter/material.dart';
+import 'package:zucchini_flutter_preview/views/parts/base_scaffold.dart';
+import 'package:zucchini_flutter_preview/views/theme/app_color.dart';
+
+class MessageScreen extends StatelessWidget {
+  static const path = 'home/message';
+
+  @override
+  Widget build(BuildContext context) {
+    return BaseScaffold(
+        currentPage: CurrentPage.home,
+        path: path,
+        appBar: AppBar(
+          title: Text('メッセージ'),
+        ),
+        body: ({user}) => Message());
+  }
+}
+
+class Message extends StatefulWidget {
+  @override
+  _MessageState createState() => _MessageState();
+}
+
+class _MessageState extends State<Message> {
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        _readWidget(),
+        _unreadWidget(),
+      ],
+    );
+  }
+
+  Widget _readWidget() {
+    return Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Container(
+        padding: EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          border: Border.all(color: AppColor.darkGray),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
+              decoration: BoxDecoration(
+                color: AppColor.darkGray,
+              ),
+              child: Text(
+                '既読',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(color: AppColor.white),
+              ),
+            ),
+            Text(
+              '【新商品情報】7月31日まで早割6%OFF「千葉県睦沢町上市場4号発電所」予約販売スタート！',
+              style: Theme.of(context).textTheme.headline6.copyWith(
+                  fontWeight: FontWeight.bold, color: AppColor.primary),
+            ),
+            Text(
+              '2020/06/27 10:00:00',
+            ),
+            SizedBox(
+              height: 8.0,
+            ),
+            Text(
+                'メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　')
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _unreadWidget() {
+    return Padding(
+      padding: EdgeInsets.all(8.0),
+      child: Container(
+        padding: EdgeInsets.all(8.0),
+        decoration: BoxDecoration(
+          border: Border.all(color: AppColor.darkGray),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
+              decoration: BoxDecoration(
+                color: AppColor.accent,
+              ),
+              child: Text(
+                '未読',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(color: AppColor.white),
+              ),
+            ),
+            Text(
+              '【新商品情報】7月31日まで早割6%OFF「千葉県睦沢町上市場4号発電所」予約販売スタート！',
+              style: Theme.of(context).textTheme.headline6.copyWith(
+                  fontWeight: FontWeight.bold, color: AppColor.primary),
+            ),
+            Text(
+              '2020/06/27 10:00:00',
+            ),
+            SizedBox(
+              height: 8.0,
+            ),
+            Text(
+                'メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　メッセージ本文　')
+          ],
+        ),
+      ),
+    );
+  }
+}
