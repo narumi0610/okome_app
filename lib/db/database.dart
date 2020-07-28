@@ -7,11 +7,17 @@ import 'package:path/path.dart' as p;
 part 'database.g.dart';
 
 class Words extends Table {
+  IntColumn get id => integer().autoIncrement()();
   TextColumn get strOrderName => text()();
+  TextColumn get strAmountKgOfRice => text()();
   TextColumn get strAmountOfRice => text()();
   TextColumn get strTypeOfRice => text()();
   TextColumn get strOrderDate => text()();
-  BoolColumn get isMemoriezed => boolean().withDefault(Constant(false))();
+  TextColumn get strNote => text()();
+  BoolColumn get isCompleted => boolean().withDefault(Constant(false))();
+
+  @override
+  Set<Column> get primaryKey => {id};
 }
 
 LazyDatabase _openConnention() {
@@ -40,4 +46,8 @@ class MyDatabase extends _$MyDatabase {
 
   //update
   Future updateWord(Word word) => update(words).replace(word);
+
+  //derate
+  Future deleteWord(Word word) =>
+      (delete(words)..where((t) => t.id.equals(word.id))).go();
 }

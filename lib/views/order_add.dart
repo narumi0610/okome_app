@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:moor/moor.dart' hide Column;
 import 'package:flutter/cupertino.dart';
+import 'package:saito_of_rice_app/common/amount_picker.dart';
+import 'package:saito_of_rice_app/common/data_picker.dart';
+import 'package:saito_of_rice_app/common/model.dart';
+import 'package:saito_of_rice_app/common/type_picker.dart';
 import 'package:saito_of_rice_app/db/database.dart';
 import 'package:saito_of_rice_app/main.dart';
 import 'package:saito_of_rice_app/views/order_list.dart';
 import 'package:toast/toast.dart';
+import 'package:flutter_material_pickers/flutter_material_pickers.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class OrderAdd extends StatefulWidget {
   @override
@@ -12,29 +19,38 @@ class OrderAdd extends StatefulWidget {
 }
 
 class _OrderAddState extends State<OrderAdd> {
-  String _selectedItem = 'none';
-
-  final List<String> _items = [
-    'item1',
-    'item2',
-    'item3',
-    'item4',
-    'item5',
-    'item6',
-  ];
+  var model = ExampleModel();
 
   TextEditingController orderNameController = TextEditingController();
-  TextEditingController amountOfRiceController = TextEditingController();
+  // TextEditingController amountOfRiceController = TextEditingController();
   TextEditingController typeOfRiceController = TextEditingController();
   TextEditingController orderDateController = TextEditingController();
+
+  String selectedKg = '10';
+  String selectedAmount = '1';
+  String selectedType = 'はえぬき';
+  String selectedData = '';
+
+  // get sentDateFormatted  {
+  //   initializeDateFormatting("ja_JP");
+
+  //   DateTime datetime = DateTime.parse(selectedData); // StringからDate
+
+  //   var formatter = new DateFormat('yyyy/MM/dd(E)', "ja_JP");
+  //   var formatted = formatter.format(datetime); // DateからString
+  //   return formatted;
+  // }
 
   @override
   void initState() {
     super.initState();
     orderNameController.text = '';
-    amountOfRiceController.text = '';
-    typeOfRiceController.text = '';
-    orderDateController.text = '';
+    // amountOfRiceController.text = '';
+    // typeOfRiceController.text = '';
+    // orderDateController.text = '';
+    selectedKg = '10';
+    selectedAmount = '1';
+    selectedData = '';
   }
 
   @override
@@ -54,27 +70,56 @@ class _OrderAddState extends State<OrderAdd> {
                   _selectedData(),
                   _orderNameInput(),
                   SizedBox(height: 20.0),
-                  _amountOfRiceInput(_selectedItem),
-                  // _buildNumberRow(),
+                  // _amountOfRiceInput(),
+                  AmountPicker(
+                    selectedKg: selectedKg,
+                    selectedAmount: selectedAmount,
+                  ),
                   SizedBox(height: 20.0),
-                  _typeOfRiceInput(),
+                  // _typeOfRiceInput(),
+                  TypePicker(
+                    selectedType: selectedType,
+                  ),
                   SizedBox(height: 20.0),
-                  _orderDateInput(),
+                  DataPicker(
+                    selectedData: selectedData,
+                  ),
                   SizedBox(height: 60.0),
                   _orderAddButton(),
-                  RaisedButton(
-                    onPressed: () {
-                      _showModalPicker(context);
-                    },
-                    child: const Text('Show Picker'),
-                  ),
-                  Text(_selectedItem)
                 ],
               ),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Row buildScrollRow(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        Container(
+          width: 150.0,
+          child: RaisedButton(
+            child: Text("Scroll Picker"),
+            onPressed: () => showMaterialScrollPicker(
+              context: context,
+              title: "Pick Your City",
+              items: model.riceType,
+              selectedItem: model.selectedRiceType,
+              onChanged: (value) =>
+                  setState(() => model.selectedRiceType = value),
+              onCancelled: () => print("Scroll Picker cancelled"),
+            ),
+          ),
+        ),
+        Expanded(
+          child: Text(
+            model.selectedRiceType.toString(),
+            textAlign: TextAlign.right,
+          ),
+        ),
+      ],
     );
   }
 
@@ -102,77 +147,12 @@ class _OrderAddState extends State<OrderAdd> {
   //   );
   // }
 
-  Widget _amountOfRiceInput(String str) {
-    return Container(
-      child: Row(
-        children: [
-          Container(
-            child: Text(
-              str,
-              style: const TextStyle(fontSize: 32),
-            ),
-          ),
-          IconButton(
-            icon: Icon(Icons.expand_more),
-            onPressed: () => _showModalPicker(context),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _pickerItem(String str) {
-    return Text(
-      str,
-      style: const TextStyle(fontSize: 32),
-    );
-  }
-
-  void _onSelectedItemChanged(int index) {
-    setState(() {
-      _selectedItem = _items[index];
-    });
-  }
-
-  void _showModalPicker(BuildContext context) {
-    showModalBottomSheet<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          height: MediaQuery.of(context).size.height / 3,
-          child: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: CupertinoPicker(
-              itemExtent: 40,
-              children: _items.map(_pickerItem).toList(),
-              onSelectedItemChanged: _onSelectedItemChanged,
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  //種類
-  Widget _typeOfRiceInput() {
-    return TextField(
-      controller: typeOfRiceController,
-      decoration: InputDecoration(
-        hintText: '種類',
-        icon: Icon(Icons.public),
-      ),
-      keyboardType: TextInputType.text,
-    );
-  }
-
   //日時
   Widget _orderDateInput() {
     return TextField(
       controller: orderDateController,
       decoration: InputDecoration(
-        hintText: '日時',
+        hintText: '配達完了日',
         icon: Icon(Icons.calendar_today),
       ),
       keyboardType: TextInputType.text,
@@ -193,23 +173,37 @@ class _OrderAddState extends State<OrderAdd> {
 
   _orderAddWord() async {
     if (orderNameController.text == '' ||
-        amountOfRiceController.text == '' ||
-        typeOfRiceController.text == '' ||
-        orderDateController.text == '') {
+        // amountOfRiceController.text == '' ||
+        // typeOfRiceController.text == '' ||
+        // orderDateController.text == '' ||
+        selectedKg == '' ||
+        selectedAmount == '' ||
+        selectedType == '' ||
+        selectedData == '') {
       Toast.show('未入力の欄があります。', context, duration: Toast.LENGTH_LONG);
       return;
     }
     var word = Word(
         strOrderName: orderNameController.text,
-        strAmountOfRice: amountOfRiceController.text,
-        strTypeOfRice: typeOfRiceController.text,
-        strOrderDate: orderDateController.text);
+        // strAmountOfRice: amountOfRiceController.text,
+        strAmountOfRice: selectedKg,
+        // strTypeOfRice: typeOfRiceController.text,
+        strTypeOfRice: selectedType,
+        // strOrderDate: orderDateController.text,
+        strOrderDate: selectedData,
+        id: null,
+        isCompleted: null,
+        strAmountKgOfRice: null,
+        strNote: null);
     print('登録おk');
     await database.addWord(word);
     orderNameController.clear();
-    amountOfRiceController.clear();
-    typeOfRiceController.clear();
-    orderDateController.clear();
+    // amountOfRiceController.clear();
+    // typeOfRiceController.clear();
+    selectedKg = '10';
+    selectedType = '';
+    // orderDateController.clear();
+    selectedData = '';
     print('クリアおk');
 
     Toast.show('登録が完了しました。', context, duration: Toast.LENGTH_LONG);

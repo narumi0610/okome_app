@@ -76,6 +76,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           Expanded(
             child: _buildEventList(),
           ),
+          RaisedButton(onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => OrderList(),
+              ),
+            );
+          })
         ],
       ),
       // floatingActionButton: FloatingActionButton(
