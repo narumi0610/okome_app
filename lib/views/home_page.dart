@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:saito_of_rice_app/common/order_content_card.dart';
-import 'package:saito_of_rice_app/db/database.dart';
-import 'package:saito_of_rice_app/views/order_add.dart';
 import 'package:saito_of_rice_app/views/order_list.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:saito_of_rice_app/main.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -16,12 +12,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   AnimationController _animationController;
   CalendarController _calendarController;
 
-  List<Word> _wordList = List();
-
   @override
   void initState() {
     super.initState();
-    _getAllWords();
 
     _calendarController = CalendarController();
 
@@ -31,11 +24,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
 
     _animationController.forward();
-  }
 
-  void _getAllWords() async {
-    _wordList = await database.allWords;
-    setState(() {});
+    // final _selectedDay = DateTime.now();
+    // _events = {
+    //   _selectedDay.s
+    // };
   }
 
   @override
@@ -73,27 +66,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         children: <Widget>[
           _buildTableCalendarWithBuilders(),
           const SizedBox(height: 8.0),
-          Expanded(
-            child: _buildEventList(),
-          ),
-          RaisedButton(onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => OrderList(),
-              ),
-            );
-          })
         ],
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: Colors.green,
-      //   child: Icon(
-      //     Icons.add,
-      //     color: Colors.white,
-      //   ),
-      //   onPressed: () => _addNewOrder(),
-      // ),
     );
   }
 
@@ -141,7 +115,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => OrderList(),
+                  builder: (context) => OrderList(date),
                 ),
               );
             },
@@ -202,10 +176,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
         color: _calendarController.isSelected(date)
-            ? Colors.brown[500]
+            ? Colors.green[500]
             : _calendarController.isToday(date)
-                ? Colors.brown[300]
-                : Colors.blue[400],
+                ? Colors.pink[300]
+                : Colors.purpleAccent[400],
       ),
       width: 16.0,
       height: 16.0,
@@ -221,38 +195,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildHolidaysMarker() {
-    return Icon(
-      Icons.add_box,
-      size: 20.0,
-      color: Colors.blueGrey[800],
-    );
-  }
-
-  Widget _buildEventList() {
-    return ListView.builder(
-      itemCount: _wordList.length,
-      // ignore: missing_return
-      itemBuilder: (context, int position) {
-        _orderInfo(position);
-      },
-    );
-  }
-
-  Widget _orderInfo(int position) {
-    return OrderContentCard(
-        _wordList[position].strOrderName,
-        _wordList[position].strAmountOfRice,
-        _wordList[position].strTypeOfRice,
-        _wordList[position].strOrderDate);
-  }
-
-  _addNewOrder() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => OrderAdd(),
-      ),
-    );
-  }
+  // Widget _buildHolidaysMarker() {
+  //   return Icon(
+  //     Icons.add_box,
+  //     size: 20.0,
+  //     color: Colors.blueGrey[800],
+  //   );
+  // }
 }

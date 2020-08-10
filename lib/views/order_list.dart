@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:saito_of_rice_app/common/order_content_card.dart';
 import 'package:saito_of_rice_app/db/database.dart';
 import 'package:saito_of_rice_app/views/order_add.dart';
 
 import '../main.dart';
 
+// ignore: must_be_immutable
 class OrderList extends StatefulWidget {
+  final DateTime date;
+  OrderList(this.date);
   @override
-  _OrderListState createState() => _OrderListState();
+  _OrderListState createState() => _OrderListState(date);
 }
 
 class _OrderListState extends State<OrderList> {
-  List<Word> _wordList = List();
+  DateTime date;
+  _OrderListState(this.date);
+
+  List<Order> _wordList = List();
 
   @override
   void initState() {
@@ -20,7 +27,7 @@ class _OrderListState extends State<OrderList> {
   }
 
   void _getAllWords() async {
-    _wordList = await database.allWords;
+    _wordList = await database.allOrder;
     setState(() {});
   }
 
@@ -28,7 +35,7 @@ class _OrderListState extends State<OrderList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('注文リスト'),
+        title: Text('${DateFormat.yMMMd('ja').format(date)} 注文リスト'),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
@@ -49,7 +56,7 @@ class _OrderListState extends State<OrderList> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => OrderAdd(),
+        builder: (context) => OrderAdd(date),
       ),
     );
   }
@@ -65,9 +72,12 @@ class _OrderListState extends State<OrderList> {
 
   Widget _orderInfo(int position) {
     return OrderContentCard(
+        _wordList[position].strShipmentDate,
         _wordList[position].strOrderName,
+        _wordList[position].strAmountKgOfRice,
         _wordList[position].strAmountOfRice,
         _wordList[position].strTypeOfRice,
-        _wordList[position].strOrderDate);
+        _wordList[position].strArriveDate,
+        _wordList[position].strNote);
   }
 }

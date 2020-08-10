@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 
 class OrderEdit extends StatefulWidget {
+  final String shipmentDate;
   final String orderName;
+  final String amountkgOfRice;
   final String amountOfRice;
   final String typeOfRice;
   final String orderDate;
+  final String orderNote;
 
-  OrderEdit(
-    this.orderName,
-    this.amountOfRice,
-    this.typeOfRice,
-    this.orderDate,
-  );
+  OrderEdit(this.shipmentDate, this.orderName, this.amountkgOfRice,
+      this.amountOfRice, this.typeOfRice, this.orderDate, this.orderNote);
 
   @override
   _OrderEditState createState() => _OrderEditState();

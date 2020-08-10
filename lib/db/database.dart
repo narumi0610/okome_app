@@ -6,18 +6,15 @@ import 'package:path/path.dart' as p;
 
 part 'database.g.dart';
 
-class Words extends Table {
+class Orders extends Table {
   IntColumn get id => integer().autoIncrement()();
+  TextColumn get strShipmentDate => text()();
   TextColumn get strOrderName => text()();
   TextColumn get strAmountKgOfRice => text()();
   TextColumn get strAmountOfRice => text()();
   TextColumn get strTypeOfRice => text()();
-  TextColumn get strOrderDate => text()();
+  TextColumn get strArriveDate => text()();
   TextColumn get strNote => text()();
-  BoolColumn get isCompleted => boolean().withDefault(Constant(false))();
-
-  @override
-  Set<Column> get primaryKey => {id};
 }
 
 LazyDatabase _openConnention() {
@@ -25,29 +22,30 @@ LazyDatabase _openConnention() {
     //スマホでフォルダを開ける
     final dbFolder = await getApplicationDocumentsDirectory();
     //そのフォルダのなかでwords.dbというファイルをつくる
-    final file = File(p.join(dbFolder.path, 'words.db'));
+    final file = File(p.join(dbFolder.path, 'orders.db'));
     //そのファイルを開く
     return VmDatabase(file);
   });
 }
 
-@UseMoor(tables: [Words])
+@UseMoor(tables: [Orders])
 class MyDatabase extends _$MyDatabase {
   MyDatabase() : super(_openConnention());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 1;
 
   //create
-  Future addWord(Word word) => into(words).insert(word);
+  Future addOrder(OrdersCompanion order) => into(orders).insert(order);
 
   //read
-  Future<List<Word>> get allWords => select(words).get();
+  Future<List<Order>> get allOrder => select(orders).get();
 
   //update
-  Future updateWord(Word word) => update(words).replace(word);
+  Future updateOrder(Order order) => update(orders).replace(order);
 
-  //derate
-  Future deleteWord(Word word) =>
-      (delete(words)..where((t) => t.id.equals(word.id))).go();
+  //delete
+  Future<int> deleteOrder(int id) {
+    return (delete(orders)..where((it) => it.id.equals(id))).go();
+  }
 }

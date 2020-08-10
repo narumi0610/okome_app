@@ -7,32 +7,33 @@ part of 'database.dart';
 // **************************************************************************
 
 // ignore_for_file: unnecessary_brace_in_string_interps, unnecessary_this
-class Word extends DataClass implements Insertable<Word> {
+class Order extends DataClass implements Insertable<Order> {
   final int id;
+  final String strShipmentDate;
   final String strOrderName;
   final String strAmountKgOfRice;
   final String strAmountOfRice;
   final String strTypeOfRice;
-  final String strOrderDate;
+  final String strArriveDate;
   final String strNote;
-  final bool isCompleted;
-  Word(
+  Order(
       {@required this.id,
+      @required this.strShipmentDate,
       @required this.strOrderName,
       @required this.strAmountKgOfRice,
       @required this.strAmountOfRice,
       @required this.strTypeOfRice,
-      @required this.strOrderDate,
-      @required this.strNote,
-      @required this.isCompleted});
-  factory Word.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      @required this.strArriveDate,
+      @required this.strNote});
+  factory Order.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
-    final boolType = db.typeSystem.forDartType<bool>();
-    return Word(
+    return Order(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      strShipmentDate: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}str_shipment_date']),
       strOrderName: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}str_order_name']),
       strAmountKgOfRice: stringType.mapFromDatabaseResponse(
@@ -41,26 +42,24 @@ class Word extends DataClass implements Insertable<Word> {
           data['${effectivePrefix}str_amount_of_rice']),
       strTypeOfRice: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}str_type_of_rice']),
-      strOrderDate: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}str_order_date']),
+      strArriveDate: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}str_arrive_date']),
       strNote: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}str_note']),
-      isCompleted: boolType
-          .mapFromDatabaseResponse(data['${effectivePrefix}is_completed']),
     );
   }
-  factory Word.fromJson(Map<String, dynamic> json,
+  factory Order.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
-    return Word(
+    return Order(
       id: serializer.fromJson<int>(json['id']),
+      strShipmentDate: serializer.fromJson<String>(json['strShipmentDate']),
       strOrderName: serializer.fromJson<String>(json['strOrderName']),
       strAmountKgOfRice: serializer.fromJson<String>(json['strAmountKgOfRice']),
       strAmountOfRice: serializer.fromJson<String>(json['strAmountOfRice']),
       strTypeOfRice: serializer.fromJson<String>(json['strTypeOfRice']),
-      strOrderDate: serializer.fromJson<String>(json['strOrderDate']),
+      strArriveDate: serializer.fromJson<String>(json['strArriveDate']),
       strNote: serializer.fromJson<String>(json['strNote']),
-      isCompleted: serializer.fromJson<bool>(json['isCompleted']),
     );
   }
   @override
@@ -68,20 +67,23 @@ class Word extends DataClass implements Insertable<Word> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
+      'strShipmentDate': serializer.toJson<String>(strShipmentDate),
       'strOrderName': serializer.toJson<String>(strOrderName),
       'strAmountKgOfRice': serializer.toJson<String>(strAmountKgOfRice),
       'strAmountOfRice': serializer.toJson<String>(strAmountOfRice),
       'strTypeOfRice': serializer.toJson<String>(strTypeOfRice),
-      'strOrderDate': serializer.toJson<String>(strOrderDate),
+      'strArriveDate': serializer.toJson<String>(strArriveDate),
       'strNote': serializer.toJson<String>(strNote),
-      'isCompleted': serializer.toJson<bool>(isCompleted),
     };
   }
 
   @override
-  WordsCompanion createCompanion(bool nullToAbsent) {
-    return WordsCompanion(
+  OrdersCompanion createCompanion(bool nullToAbsent) {
+    return OrdersCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      strShipmentDate: strShipmentDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(strShipmentDate),
       strOrderName: strOrderName == null && nullToAbsent
           ? const Value.absent()
           : Value(strOrderName),
@@ -94,48 +96,45 @@ class Word extends DataClass implements Insertable<Word> {
       strTypeOfRice: strTypeOfRice == null && nullToAbsent
           ? const Value.absent()
           : Value(strTypeOfRice),
-      strOrderDate: strOrderDate == null && nullToAbsent
+      strArriveDate: strArriveDate == null && nullToAbsent
           ? const Value.absent()
-          : Value(strOrderDate),
+          : Value(strArriveDate),
       strNote: strNote == null && nullToAbsent
           ? const Value.absent()
           : Value(strNote),
-      isCompleted: isCompleted == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isCompleted),
     );
   }
 
-  Word copyWith(
+  Order copyWith(
           {int id,
+          String strShipmentDate,
           String strOrderName,
           String strAmountKgOfRice,
           String strAmountOfRice,
           String strTypeOfRice,
-          String strOrderDate,
-          String strNote,
-          bool isCompleted}) =>
-      Word(
+          String strArriveDate,
+          String strNote}) =>
+      Order(
         id: id ?? this.id,
+        strShipmentDate: strShipmentDate ?? this.strShipmentDate,
         strOrderName: strOrderName ?? this.strOrderName,
         strAmountKgOfRice: strAmountKgOfRice ?? this.strAmountKgOfRice,
         strAmountOfRice: strAmountOfRice ?? this.strAmountOfRice,
         strTypeOfRice: strTypeOfRice ?? this.strTypeOfRice,
-        strOrderDate: strOrderDate ?? this.strOrderDate,
+        strArriveDate: strArriveDate ?? this.strArriveDate,
         strNote: strNote ?? this.strNote,
-        isCompleted: isCompleted ?? this.isCompleted,
       );
   @override
   String toString() {
-    return (StringBuffer('Word(')
+    return (StringBuffer('Order(')
           ..write('id: $id, ')
+          ..write('strShipmentDate: $strShipmentDate, ')
           ..write('strOrderName: $strOrderName, ')
           ..write('strAmountKgOfRice: $strAmountKgOfRice, ')
           ..write('strAmountOfRice: $strAmountOfRice, ')
           ..write('strTypeOfRice: $strTypeOfRice, ')
-          ..write('strOrderDate: $strOrderDate, ')
-          ..write('strNote: $strNote, ')
-          ..write('isCompleted: $isCompleted')
+          ..write('strArriveDate: $strArriveDate, ')
+          ..write('strNote: $strNote')
           ..write(')'))
         .toString();
   }
@@ -144,89 +143,92 @@ class Word extends DataClass implements Insertable<Word> {
   int get hashCode => $mrjf($mrjc(
       id.hashCode,
       $mrjc(
-          strOrderName.hashCode,
+          strShipmentDate.hashCode,
           $mrjc(
-              strAmountKgOfRice.hashCode,
+              strOrderName.hashCode,
               $mrjc(
-                  strAmountOfRice.hashCode,
+                  strAmountKgOfRice.hashCode,
                   $mrjc(
-                      strTypeOfRice.hashCode,
-                      $mrjc(strOrderDate.hashCode,
-                          $mrjc(strNote.hashCode, isCompleted.hashCode))))))));
+                      strAmountOfRice.hashCode,
+                      $mrjc(
+                          strTypeOfRice.hashCode,
+                          $mrjc(
+                              strArriveDate.hashCode, strNote.hashCode))))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
-      (other is Word &&
+      (other is Order &&
           other.id == this.id &&
+          other.strShipmentDate == this.strShipmentDate &&
           other.strOrderName == this.strOrderName &&
           other.strAmountKgOfRice == this.strAmountKgOfRice &&
           other.strAmountOfRice == this.strAmountOfRice &&
           other.strTypeOfRice == this.strTypeOfRice &&
-          other.strOrderDate == this.strOrderDate &&
-          other.strNote == this.strNote &&
-          other.isCompleted == this.isCompleted);
+          other.strArriveDate == this.strArriveDate &&
+          other.strNote == this.strNote);
 }
 
-class WordsCompanion extends UpdateCompanion<Word> {
+class OrdersCompanion extends UpdateCompanion<Order> {
   final Value<int> id;
+  final Value<String> strShipmentDate;
   final Value<String> strOrderName;
   final Value<String> strAmountKgOfRice;
   final Value<String> strAmountOfRice;
   final Value<String> strTypeOfRice;
-  final Value<String> strOrderDate;
+  final Value<String> strArriveDate;
   final Value<String> strNote;
-  final Value<bool> isCompleted;
-  const WordsCompanion({
+  const OrdersCompanion({
     this.id = const Value.absent(),
+    this.strShipmentDate = const Value.absent(),
     this.strOrderName = const Value.absent(),
     this.strAmountKgOfRice = const Value.absent(),
     this.strAmountOfRice = const Value.absent(),
     this.strTypeOfRice = const Value.absent(),
-    this.strOrderDate = const Value.absent(),
+    this.strArriveDate = const Value.absent(),
     this.strNote = const Value.absent(),
-    this.isCompleted = const Value.absent(),
   });
-  WordsCompanion.insert({
+  OrdersCompanion.insert({
     this.id = const Value.absent(),
+    @required String strShipmentDate,
     @required String strOrderName,
     @required String strAmountKgOfRice,
     @required String strAmountOfRice,
     @required String strTypeOfRice,
-    @required String strOrderDate,
+    @required String strArriveDate,
     @required String strNote,
-    this.isCompleted = const Value.absent(),
-  })  : strOrderName = Value(strOrderName),
+  })  : strShipmentDate = Value(strShipmentDate),
+        strOrderName = Value(strOrderName),
         strAmountKgOfRice = Value(strAmountKgOfRice),
         strAmountOfRice = Value(strAmountOfRice),
         strTypeOfRice = Value(strTypeOfRice),
-        strOrderDate = Value(strOrderDate),
+        strArriveDate = Value(strArriveDate),
         strNote = Value(strNote);
-  WordsCompanion copyWith(
+  OrdersCompanion copyWith(
       {Value<int> id,
+      Value<String> strShipmentDate,
       Value<String> strOrderName,
       Value<String> strAmountKgOfRice,
       Value<String> strAmountOfRice,
       Value<String> strTypeOfRice,
-      Value<String> strOrderDate,
-      Value<String> strNote,
-      Value<bool> isCompleted}) {
-    return WordsCompanion(
+      Value<String> strArriveDate,
+      Value<String> strNote}) {
+    return OrdersCompanion(
       id: id ?? this.id,
+      strShipmentDate: strShipmentDate ?? this.strShipmentDate,
       strOrderName: strOrderName ?? this.strOrderName,
       strAmountKgOfRice: strAmountKgOfRice ?? this.strAmountKgOfRice,
       strAmountOfRice: strAmountOfRice ?? this.strAmountOfRice,
       strTypeOfRice: strTypeOfRice ?? this.strTypeOfRice,
-      strOrderDate: strOrderDate ?? this.strOrderDate,
+      strArriveDate: strArriveDate ?? this.strArriveDate,
       strNote: strNote ?? this.strNote,
-      isCompleted: isCompleted ?? this.isCompleted,
     );
   }
 }
 
-class $WordsTable extends Words with TableInfo<$WordsTable, Word> {
+class $OrdersTable extends Orders with TableInfo<$OrdersTable, Order> {
   final GeneratedDatabase _db;
   final String _alias;
-  $WordsTable(this._db, [this._alias]);
+  $OrdersTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedIntColumn _id;
   @override
@@ -234,6 +236,20 @@ class $WordsTable extends Words with TableInfo<$WordsTable, Word> {
   GeneratedIntColumn _constructId() {
     return GeneratedIntColumn('id', $tableName, false,
         hasAutoIncrement: true, declaredAsPrimaryKey: true);
+  }
+
+  final VerificationMeta _strShipmentDateMeta =
+      const VerificationMeta('strShipmentDate');
+  GeneratedTextColumn _strShipmentDate;
+  @override
+  GeneratedTextColumn get strShipmentDate =>
+      _strShipmentDate ??= _constructStrShipmentDate();
+  GeneratedTextColumn _constructStrShipmentDate() {
+    return GeneratedTextColumn(
+      'str_shipment_date',
+      $tableName,
+      false,
+    );
   }
 
   final VerificationMeta _strOrderNameMeta =
@@ -292,15 +308,15 @@ class $WordsTable extends Words with TableInfo<$WordsTable, Word> {
     );
   }
 
-  final VerificationMeta _strOrderDateMeta =
-      const VerificationMeta('strOrderDate');
-  GeneratedTextColumn _strOrderDate;
+  final VerificationMeta _strArriveDateMeta =
+      const VerificationMeta('strArriveDate');
+  GeneratedTextColumn _strArriveDate;
   @override
-  GeneratedTextColumn get strOrderDate =>
-      _strOrderDate ??= _constructStrOrderDate();
-  GeneratedTextColumn _constructStrOrderDate() {
+  GeneratedTextColumn get strArriveDate =>
+      _strArriveDate ??= _constructStrArriveDate();
+  GeneratedTextColumn _constructStrArriveDate() {
     return GeneratedTextColumn(
-      'str_order_date',
+      'str_arrive_date',
       $tableName,
       false,
     );
@@ -318,40 +334,37 @@ class $WordsTable extends Words with TableInfo<$WordsTable, Word> {
     );
   }
 
-  final VerificationMeta _isCompletedMeta =
-      const VerificationMeta('isCompleted');
-  GeneratedBoolColumn _isCompleted;
-  @override
-  GeneratedBoolColumn get isCompleted =>
-      _isCompleted ??= _constructIsCompleted();
-  GeneratedBoolColumn _constructIsCompleted() {
-    return GeneratedBoolColumn('is_completed', $tableName, false,
-        defaultValue: Constant(false));
-  }
-
   @override
   List<GeneratedColumn> get $columns => [
         id,
+        strShipmentDate,
         strOrderName,
         strAmountKgOfRice,
         strAmountOfRice,
         strTypeOfRice,
-        strOrderDate,
-        strNote,
-        isCompleted
+        strArriveDate,
+        strNote
       ];
   @override
-  $WordsTable get asDslTable => this;
+  $OrdersTable get asDslTable => this;
   @override
-  String get $tableName => _alias ?? 'words';
+  String get $tableName => _alias ?? 'orders';
   @override
-  final String actualTableName = 'words';
+  final String actualTableName = 'orders';
   @override
-  VerificationContext validateIntegrity(WordsCompanion d,
+  VerificationContext validateIntegrity(OrdersCompanion d,
       {bool isInserting = false}) {
     final context = VerificationContext();
     if (d.id.present) {
       context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    }
+    if (d.strShipmentDate.present) {
+      context.handle(
+          _strShipmentDateMeta,
+          strShipmentDate.isAcceptableValue(
+              d.strShipmentDate.value, _strShipmentDateMeta));
+    } else if (isInserting) {
+      context.missing(_strShipmentDateMeta);
     }
     if (d.strOrderName.present) {
       context.handle(
@@ -385,13 +398,13 @@ class $WordsTable extends Words with TableInfo<$WordsTable, Word> {
     } else if (isInserting) {
       context.missing(_strTypeOfRiceMeta);
     }
-    if (d.strOrderDate.present) {
+    if (d.strArriveDate.present) {
       context.handle(
-          _strOrderDateMeta,
-          strOrderDate.isAcceptableValue(
-              d.strOrderDate.value, _strOrderDateMeta));
+          _strArriveDateMeta,
+          strArriveDate.isAcceptableValue(
+              d.strArriveDate.value, _strArriveDateMeta));
     } else if (isInserting) {
-      context.missing(_strOrderDateMeta);
+      context.missing(_strArriveDateMeta);
     }
     if (d.strNote.present) {
       context.handle(_strNoteMeta,
@@ -399,26 +412,26 @@ class $WordsTable extends Words with TableInfo<$WordsTable, Word> {
     } else if (isInserting) {
       context.missing(_strNoteMeta);
     }
-    if (d.isCompleted.present) {
-      context.handle(_isCompletedMeta,
-          isCompleted.isAcceptableValue(d.isCompleted.value, _isCompletedMeta));
-    }
     return context;
   }
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Word map(Map<String, dynamic> data, {String tablePrefix}) {
+  Order map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
-    return Word.fromData(data, _db, prefix: effectivePrefix);
+    return Order.fromData(data, _db, prefix: effectivePrefix);
   }
 
   @override
-  Map<String, Variable> entityToSql(WordsCompanion d) {
+  Map<String, Variable> entityToSql(OrdersCompanion d) {
     final map = <String, Variable>{};
     if (d.id.present) {
       map['id'] = Variable<int, IntType>(d.id.value);
+    }
+    if (d.strShipmentDate.present) {
+      map['str_shipment_date'] =
+          Variable<String, StringType>(d.strShipmentDate.value);
     }
     if (d.strOrderName.present) {
       map['str_order_name'] =
@@ -436,31 +449,28 @@ class $WordsTable extends Words with TableInfo<$WordsTable, Word> {
       map['str_type_of_rice'] =
           Variable<String, StringType>(d.strTypeOfRice.value);
     }
-    if (d.strOrderDate.present) {
-      map['str_order_date'] =
-          Variable<String, StringType>(d.strOrderDate.value);
+    if (d.strArriveDate.present) {
+      map['str_arrive_date'] =
+          Variable<String, StringType>(d.strArriveDate.value);
     }
     if (d.strNote.present) {
       map['str_note'] = Variable<String, StringType>(d.strNote.value);
-    }
-    if (d.isCompleted.present) {
-      map['is_completed'] = Variable<bool, BoolType>(d.isCompleted.value);
     }
     return map;
   }
 
   @override
-  $WordsTable createAlias(String alias) {
-    return $WordsTable(_db, alias);
+  $OrdersTable createAlias(String alias) {
+    return $OrdersTable(_db, alias);
   }
 }
 
 abstract class _$MyDatabase extends GeneratedDatabase {
   _$MyDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
-  $WordsTable _words;
-  $WordsTable get words => _words ??= $WordsTable(this);
+  $OrdersTable _orders;
+  $OrdersTable get orders => _orders ??= $OrdersTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [words];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [orders];
 }
