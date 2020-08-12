@@ -6,7 +6,6 @@ import 'package:saito_of_rice_app/views/order_add.dart';
 
 import '../main.dart';
 
-// ignore: must_be_immutable
 class OrderList extends StatefulWidget {
   final DateTime date;
   OrderList(this.date);
@@ -23,12 +22,22 @@ class _OrderListState extends State<OrderList> {
   @override
   void initState() {
     super.initState();
-    _getAllWords();
+    _getSelectOrders();
   }
 
-  void _getAllWords() async {
-    _wordList = await database.allOrder;
-    setState(() {});
+  void _getSelectOrders() async {
+    final orders = await database.allOrder;
+    final targetDateOrders = orders.where((order) {
+      /* 対象の日付のデータだったら true を返す、違ったら false を返す */
+      if (DateFormat.yMMMd('ja').format(date) == order.strShipmentDate) {
+        return true;
+      } else {
+        return false;
+      }
+    }).toList();
+    setState(() {
+      _wordList = targetDateOrders;
+    });
   }
 
   @override
