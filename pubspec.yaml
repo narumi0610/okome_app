@@ -40,12 +40,17 @@ dependencies:
   intl:
   intl_translation:
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
   moor_generator: ^2.4.0
   build_runner: 
+  flutter_launcher_icons: "^0.7.3"
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/okome_no_saito.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
