@@ -33,7 +33,7 @@ class MyDatabase extends _$MyDatabase {
   MyDatabase() : super(_openConnention());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 4;
 
   //create
   Future addOrder(OrdersCompanion order) => into(orders).insert(order);
