@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:saito_of_rice_app/common/order_content_card.dart';
 import 'package:saito_of_rice_app/db/database.dart';
 import 'package:saito_of_rice_app/views/order_add.dart';
+import 'package:toast/toast.dart';
 
 import '../main.dart';
 
@@ -81,12 +82,22 @@ class _OrderListState extends State<OrderList> {
 
   Widget _orderInfo(int position) {
     return OrderContentCard(
-        _wordList[position].strShipmentDate,
-        _wordList[position].strOrderName,
-        _wordList[position].strAmountKgOfRice,
-        _wordList[position].strAmountOfRice,
-        _wordList[position].strTypeOfRice,
-        _wordList[position].strArriveDate,
-        _wordList[position].strNote);
+      _wordList[position].strShipmentDate,
+      _wordList[position].strOrderName,
+      _wordList[position].strAmountKgOfRice,
+      _wordList[position].strAmountOfRice,
+      _wordList[position].strTypeOfRice,
+      _wordList[position].strArriveDate,
+      _wordList[position].strNote,
+      () {
+        deleteOrder(_wordList[position]);
+      },
+    );
+  }
+
+  void deleteOrder(Order selectedOrder) async {
+    await database.deleteOrder(selectedOrder.id);
+    Toast.show('削除が完了しました', context);
+    _getSelectOrders();
   }
 }

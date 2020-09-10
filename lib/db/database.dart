@@ -46,6 +46,7 @@ class MyDatabase extends _$MyDatabase {
 
   //delete
   Future<int> deleteOrder(int id) {
+    print('dbから削除しました');
     return (delete(orders)..where((it) => it.id.equals(id))).go();
   }
 }
