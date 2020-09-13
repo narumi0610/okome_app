@@ -66,31 +66,31 @@ class _OrderContentCardState extends State<OrderContentCard> {
                           ),
                   ],
                 ),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  color: Colors.grey,
-                  size: 17.0,
-                ),
+                // Icon(
+                //   Icons.arrow_forward_ios,
+                //   color: Colors.grey,
+                //   size: 17.0,
+                // ),
               ],
             ),
           ),
         ),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => OrderEdit(
-                  widget.shipmentDate,
-                  widget.orderName,
-                  widget.amountKgOfRice,
-                  widget.amountOfRice,
-                  widget.typeOfRice,
-                  widget.arrivalDate,
-                  widget.orderNote),
-            ),
-          );
-          print('短く押しました');
-        },
+        // onTap: () {
+        //   Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //       builder: (context) => OrderEdit(
+        //           widget.shipmentDate,
+        //           widget.orderName,
+        //           widget.amountKgOfRice,
+        //           widget.amountOfRice,
+        //           widget.typeOfRice,
+        //           widget.arrivalDate,
+        //           widget.orderNote),
+        //     ),
+        //   );
+        //   print('短く押しました');
+        // },
         onLongPress: () {
           // print('長押ししました');
           widget.deleteOrder();
