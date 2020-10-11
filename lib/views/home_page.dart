@@ -24,11 +24,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     );
 
     _animationController.forward();
-
-    // final _selectedDay = DateTime.now();
-    // _events = {
-    //   _selectedDay.s
-    // };
   }
 
   @override
@@ -147,16 +142,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               ),
             );
           }
-          //表示なってない？？
-          // if (holidays.isNotEmpty) {
-          //   children.add(
-          //     Positioned(
-          //       right: -10,
-          //       top: -2,
-          //       child: _buildHolidaysMarker(),
-          //     ),
-          //   );
-          // }
           return children;
         },
       ),
@@ -194,12 +179,4 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       ),
     );
   }
-
-  // Widget _buildHolidaysMarker() {
-  //   return Icon(
-  //     Icons.add_box,
-  //     size: 20.0,
-  //     color: Colors.blueGrey[800],
-  //   );
-  // }
 }
